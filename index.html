@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tablero de pobreza en México 2008-2018</title>
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<style>
+  body{font-family:Arial,sans-serif;margin:0;background:#f3f5f7;color:#243040}
+  header{background:#243b53;color:white;padding:28px 5%;text-align:center}
+  header p{margin-bottom:0}
+  main{max-width:1200px;margin:24px auto;padding:0 18px}
+  .intro{background:white;padding:18px 22px;border-radius:10px;margin-bottom:18px;line-height:1.5}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}
+  .card{background:white;padding:18px;border-radius:10px;box-shadow:0 2px 8px #00000012}
+  .card h2{font-size:18px;margin:0 0 8px}
+  .card p{font-size:14px;line-height:1.45;color:#4b5968}
+  .chart{width:100%;height:330px}
+  footer{text-align:center;padding:24px;color:#596575;font-size:13px}
+  @media(max-width:500px){.chart{height:300px}.card{padding:12px}}
+</style>
+<script>
+google.charts.load('current', {'packages':['corechart','bar']});
+google.charts.setOnLoadCallback(drawCharts);
+function drawCharts(){
+  const optionsBase={backgroundColor:'transparent',fontName:'Arial',legend:{position:'bottom'},chartArea:{left:65,top:25,width:'82%',height:'68%'}};
+
+  let d1=google.visualization.arrayToDataTable([
+    ['Año','Pobreza extrema (%)'],
+    ['2008',11.0],['2010',11.3],['2012',9.8],['2014',9.5],['2016',7.6],['2018',7.4]
+  ]);
+  new google.visualization.LineChart(document.getElementById('chart1')).draw(d1,{...optionsBase,title:'Porcentaje de población en pobreza extrema',vAxis:{title:'Porcentaje (%)',minValue:0},hAxis:{title:'Año'},pointSize:6,colors:['#2878B5']});
+
+  let d2=google.visualization.arrayToDataTable([
+    ['Año','Personas (millones)'],
+    ['2008',12.328],['2010',12.965],['2012',11.529],['2014',11.442],['2016',9.376],['2018',9.310]
+  ]);
+  new google.visualization.ColumnChart(document.getElementById('chart2')).draw(d2,{...optionsBase,title:'Personas en pobreza extrema',vAxis:{title:'Millones de personas',minValue:0},hAxis:{title:'Año'},colors:['#4B9B76']});
+
+  let d3=google.visualization.arrayToDataTable([
+    ['Carencia social','2008 (%)','2018 (%)'],
+    ['Rezago educativo',21.9,16.9],
+    ['Acceso a servicios de salud',38.4,16.2],
+    ['Acceso a seguridad social',65.0,57.3],
+    ['Calidad y espacios de vivienda',17.7,11.1],
+    ['Servicios básicos en vivienda',22.9,19.8],
+    ['Acceso a alimentación',21.7,20.4]
+  ]);
+  new google.visualization.BarChart(document.getElementById('chart3')).draw(d3,{...optionsBase,title:'Carencias sociales: comparación 2008 y 2018',hAxis:{title:'Población con carencia (%)',minValue:0},bars:'horizontal',colors:['#D58B37','#6C8EBF']});
+
+  let d4=google.visualization.arrayToDataTable([
+    ['Condición de la población','Porcentaje'],
+    ['En situación de pobreza',41.9],
+    ['No en situación de pobreza',58.1]
+  ]);
+  new google.visualization.PieChart(document.getElementById('chart4')).draw(d4,{...optionsBase,title:'Población según condición de pobreza (2018)',pieHole:0,colors:['#D96C5F','#6C8EBF'],pieSliceText:'percentage'});
+
+  let d5=google.visualization.arrayToDataTable([
+    ['Año','Pobreza (%)','Pobreza extrema (%)'],
+    ['2008',44.4,11.0],['2010',46.1,11.3],['2012',45.5,9.8],
+    ['2014',46.2,9.5],['2016',43.6,7.6],['2018',41.9,7.4]
+  ]);
+  new google.visualization.ColumnChart(document.getElementById('chart5')).draw(d5,{...optionsBase,title:'Pobreza y pobreza extrema',vAxis:{title:'Porcentaje de población (%)',minValue:0},hAxis:{title:'Año'},isStacked:false,colors:['#2878B5','#D96C5F']});
+}
+window.addEventListener('resize',()=>{if(window.google&&google.visualization)drawCharts();});
+</script>
+</head>
+<body>
+<header>
+  <h1>La pobreza en México: 2008-2018</h1>
+  <p>Tablero de visualización basado en información publicada por CONEVAL (2019)</p>
+</header>
+<main>
+  <section class="intro">
+    <strong>Objetivo del tablero</strong>
+    <p>Presentar de forma visual la evolución de la pobreza y de algunas carencias sociales en México durante el periodo 2008-2018. Las gráficas permiten identificar tendencias y comparar indicadores en distintos años.</p>
+    <small>Nota: la información corresponde a la serie histórica 2008-2018 publicada en 2019; no representa cifras actuales.</small>
+  </section>
+  <section class="grid">
+    <article class="card"><h2>1. Evolución porcentual</h2><div id="chart1" class="chart"></div><p>El gráfico de líneas permite observar la tendencia descendente del porcentaje de pobreza extrema en el periodo.</p></article>
+    <article class="card"><h2>2. Cantidad de personas</h2><div id="chart2" class="chart"></div><p>Las columnas facilitan comparar la cantidad de personas en pobreza extrema en cada año.</p></article>
+    <article class="card"><h2>3. Carencias sociales</h2><div id="chart3" class="chart"></div><p>Las barras horizontales comparan seis indicadores sociales entre 2008 y 2018; permiten identificar cuáles disminuyeron más y cuáles siguen siendo elevadas.</p></article>
+    <article class="card"><h2>4. Distribución en 2018</h2><div id="chart4" class="chart"></div><p>El gráfico circular muestra la proporción de la población en situación de pobreza frente a la población que no se encontraba en esa condición.</p></article>
+    <article class="card"><h2>5. Comparación de porcentajes</h2><div id="chart5" class="chart"></div><p>Las columnas agrupadas permiten comparar la pobreza total con la pobreza extrema en los años seleccionados.</p></article>
+  </section>
+</main>
+<footer>Fuente: CONEVAL (2019), estimaciones de pobreza multidimensional, serie 2008-2018.</footer>
+</body>
+</html>
